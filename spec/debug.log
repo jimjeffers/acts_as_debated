@@ -1,0 +1,5 @@
+# Logfile created on Sun Apr 26 01:16:49 -0700 2009 by /
+  [4;36;1mSQL (0.2ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
