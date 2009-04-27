@@ -30,7 +30,7 @@ MyTopic.first.debated_score                              # => 1
 MyTopic.first.thumbs_down_from(user)                     # => #<Debateable id: ...
 MyTopic.first.debated_score                              # => -1
 MyTopic.first.thumbs_down_from(another_user)             # => #<Debateable id: ...
-MyTopic.first.debated_score                              # => 0
+MyTopic.first.debated_score                              # => -2
 MyTopic.first.debated_by?(user)                          # => true
 
 
