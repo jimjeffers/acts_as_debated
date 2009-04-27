@@ -1,13 +1,37 @@
-ActsAsDebateable
+ActsAsDebated
 ================
 
-Introduction goes here.
+Based off of acts_as_rateable, this simplified rating system provides a +1 / -1 debate system on your model. The debated score is calculated by the sum of response scores.
 
+Full rSpec suite is provided but you'll need to replace @model with an instance of one of your own models utilizing the mixin.
 
 Example
 =======
+-------
+Run the debateable_migration:
+-------
+script/generate debateable_migration
+rake db:migrate
 
-Example goes here.
+-------
+Declare the mixin within a model of your choice:
+-------
+class MyTopic < ActiveRecord::Base
+   acts_as_debated
+end
+
+-------
+Utilize the instance methods as you wish.
+-------
+
+MyTopic.create!(:name => 'test').debated_by?(user)       # => false
+MyTopic.first.thumbs_up_from(user)                       # => #<Debateable id: ...
+MyTopic.first.debated_score                              # => 1
+MyTopic.first.thumbs_down_from(user)                     # => #<Debateable id: ...
+MyTopic.first.debated_score                              # => -1
+MyTopic.first.thumbs_down_from(another_user)             # => #<Debateable id: ...
+MyTopic.first.debated_score                              # => 0
+MyTopic.first.debated_by?(user)                          # => true
 
 
-Copyright (c) 2009 [name of plugin creator], released under the MIT license
+Copyright (c) 2009 Jim Jeffers, released under the MIT license

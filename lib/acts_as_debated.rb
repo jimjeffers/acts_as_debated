@@ -23,16 +23,29 @@ module ActiveRecord
 
       module InstanceMethods
         # Rates the object by a given score. A user object can be passed to the method.
-        def debate_it( thumbs_up, user_id )
-          return unless user_id
-          debateable = Debateable.find_or_create_by_user_id_and_debated_type_and_debated_id(1,self.class,self.id)
-          debateable.user_id = user_id
+        def debate_it( thumbs_up, user )
+          return unless user
+          debateable = debateables.find_or_create_by_user_id(user.id)
           debateable.score = (thumbs_up) ? 1 : -1
-          debateables << debateable
+          (debateable.new_record?) ? debateables << debateable : debateable.save
+          debateable
         end
         
-        def debate_score
+        def debated_score
           debateables.sum(:score)
+        end
+        
+        def thumbs_up_from(user)
+          debate_it(true,user)
+        end
+        
+        def thumbs_down_from(user)
+          debate_it(false,user)
+        end
+        
+        # Checks wheter a user rated the object or not.
+        def debated_by?(user)
+          (debateables.detect {|r| r.user_id == user.id }) ? true : false
         end
       end
       
