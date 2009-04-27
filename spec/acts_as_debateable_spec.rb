@@ -72,12 +72,12 @@ describe "ActsAsDebated" do
   
   describe "debated_by?" do
     it "should return false if the user has not submitted a debateable" do
-      @model.debated_by?(@user).should be(false)
+      @model.debated_by?(@user).should be(nil)
     end
     
     it "should return true if the user has submitted a debateable" do
       @model.thumbs_down_from(@user)
-      @model.debated_by?(@user).should be(true)
+      @model.debated_by?(@user).should be_an_instance_of(Debateable)
     end
   end
   

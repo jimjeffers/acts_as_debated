@@ -9,15 +9,7 @@ module ActiveRecord
       module ClassMethods
         def acts_as_debated(options = {})
           has_many :debateables, :as => :debated, :dependent => :destroy
-          
           include ActiveRecord::Acts::Debated::InstanceMethods
-          extend ActiveRecord::Acts::Debated::SingletonMethods
-        end
-      end
-      
-      module SingletonMethods
-        def find_average_of( score )
-          find(:all, :include => [:rates] ).collect {|i| i if i.average_rating.to_i == score }.compact
         end
       end
 
@@ -45,7 +37,7 @@ module ActiveRecord
         
         # Checks wheter a user rated the object or not.
         def debated_by?(user)
-          (debateables.detect {|r| r.user_id == user.id }) ? true : false
+          (debateables.detect {|r| r.user_id == user.id })
         end
       end
       
