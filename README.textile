@@ -47,11 +47,13 @@ h2. Sort results by debate score.
 
 You can easily retrieve your objects sorted by debate score by using the class method 'order_by_score' which supports :order, :limit, :offset.
 
+<pre><code>
     MyTopic.order_by_score                                   
     => Finds all score value desc...
     
     MyTopic.order_by_score(:limit => 2)                      
     => Finds the two top rated items
+</code></pre>
 
 Finally you can extend an association on a parent object to get ranked results as well. For example if Topic belongs to Forum we can do this:
 
