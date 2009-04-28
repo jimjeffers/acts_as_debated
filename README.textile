@@ -22,7 +22,7 @@ Then you can utilize the instance methods as you wish.
   Topic.create!(:name => 'test').debated_by?(user)       
   => false
   
-  >> Topic.first.thumbs_up_from(user)                       
+  Topic.first.thumbs_up_from(user)                       
   => <#Debateable id: ...
   
   Topic.first.debated_score                              
