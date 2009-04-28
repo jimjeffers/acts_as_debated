@@ -8,50 +8,57 @@ h2. Example
 
 h3. Run the debateable_migration:
 
-<code>
-script/generate debateable_migration
-rake db:migrate
-</code>
+  script/generate debateable_migration
+  rake db:migrate
 
 h3. Declare the mixin within a model of your choice:
 
-<code>
-class Topic < ActiveRecord::Base
-   acts_as_debated
-end
-</code>
+  class Topic < ActiveRecord::Base
+     acts_as_debated
+  end
 
 h3. Utilize the instance methods as you wish.
 
-<code>
-Topic.create!(:name => 'test').debated_by?(user)       # => false<br/>
-Topic.first.thumbs_up_from(user)                       # => #Debateable id: ...<br/>
-Topic.first.debated_score                              # => 1<br/>
-Topic.first.thumbs_down_from(user)                     # => #Debateable id: ...<br/>
-Topic.first.debated_score                              # => -1<br/>
-Topic.first.thumbs_down_from(another_user)             # => #Debateable id: ...<br/>
-Topic.first.debated_score                              # => -2<br/>
-Topic.first.debated_by?(user)                          # => true<br/>
-</code>
+  Topic.create!(:name => 'test').debated_by?(user)       
+  # => false
+  
+  Topic.first.thumbs_up_from(user)                       
+  # => <#Debateable id: ...
+  
+  Topic.first.debated_score                              
+  # => 1
+  
+  Topic.first.thumbs_down_from(user)                     
+  # => <#Debateable id: ...
+  
+  Topic.first.debated_score                              
+  # => -1
+  
+  Topic.first.thumbs_down_from(another_user)             
+  # => <#Debateable id: ...
+  
+  Topic.first.debated_score                              
+  # => -2
+  
+  Topic.first.debated_by?(user)                          
+  # => true
 
 h3. Get results by debate score.
 
 You can easily retrieve your objects sorted by debate score by using the class method 'order_by_score' which supports :order, :limit, :offset.
 
-<code>
-MyTopic.order_by_score                                   # => Finds all score value desc...
-MyTopic.order_by_score(:limit => 2)                      # => Finds the two top rated items
-</code>
+  MyTopic.order_by_score                                   
+  # => Finds all score value desc...
+  MyTopic.order_by_score(:limit => 2)                      
+  # => Finds the two top rated items
 
 Finally you can extend an association on a parent object to get ranked results as well. For example if Topic belongs to Forum we can do this:
 
-<code>
-class Forum < ActiveRecord::Base
-   has_many :topics, :extend => ActiveRecord::Acts::Debated::OrderByScore
-end
+  class Forum < ActiveRecord::Base
+     has_many :topics, :extend => ActiveRecord::Acts::Debated::OrderByScore
+  end
 
-Forum.first.topics.order_by_score                                 # => Scoped by owner id.
-Forum.first.topics.order_by_score(:limit => 5, :order => :asc)    # => Find the 5 lowest.
-</code>
+  Forum.first.topics.order_by_score                                 # => Scoped by owner id.
+  Forum.first.topics.order_by_score(:limit => 5, :order => :asc)    # => Find the 5 lowest.
 
 Copyright (c) 2009 Jim Jeffers, released under the MIT license
